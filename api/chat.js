@@ -1,18 +1,17 @@
 // api/chat.js
 
-import axios from 'axios';
+const axios = require('axios');
 
-// This is the serverless function handler
-export default async function handler(req, res) {
+// This is the serverless function handler using module.exports
+module.exports = async (req, res) => {
     // Ensure this function only handles POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     const IBM_API_KEY = process.env.IBM_API_KEY;
-    const PROJECT_ID = process.env.PROJECT_ID; // Vercel gets this from your settings
+    const PROJECT_ID = process.env.PROJECT_ID;
     const IAM_URL = 'https://iam.cloud.ibm.com/identity/token';
-    // Use your working non-streaming endpoint
     const SCORING_URL = 'https://us-south.ml.cloud.ibm.com/ml/v4/deployments/6aa5c265-8965-4028-b9bc-64027944f790/ai_service?version=2021-05-01';
 
     try {
@@ -32,7 +31,7 @@ export default async function handler(req, res) {
 
         // 2. Prepare Payload for IBM API
         const payload = {
-            project_id: PROJECT_ID, // Include Project ID if needed by the new endpoint
+            project_id: PROJECT_ID,
             messages: [{ content: userMessage, role: "user" }],
         };
 
@@ -48,9 +47,7 @@ export default async function handler(req, res) {
         res.status(200).json(aiResponse.data);
 
     } catch (error) {
-        // Log the error on the server (visible in Vercel Logs)
         console.error("Error in /api/chat:", error.response ? error.response.data : error.message);
-        // Send a generic error response to the client
         res.status(500).json({ error: "An internal server error occurred." });
     }
-}
+};
