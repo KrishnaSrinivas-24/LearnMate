@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     const IBM_API_KEY = process.env.IBM_API_KEY;
     const PROJECT_ID = process.env.PROJECT_ID;
     const IAM_URL = 'https://iam.cloud.ibm.com/identity/token';
-    const SCORING_URL = 'https://us-south.ml.cloud.ibm.com/ml/v4/deployments/d524d8ac-2f27-4885-884c-c2c146b88ef1/ai_service?version=2021-05-01';
+    const SCORING_URL = 'https://us-south.ml.cloud.ibm.com/ml/v4/deployments/7b3b80f0-d7e4-4db7-aa34-f004c3d46fed/ai_service?version=2021-05-01';
 
     try {
         const userMessage = req.body.message;
